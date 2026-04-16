@@ -240,7 +240,9 @@ def depth_first_search(grid_size, start, goal, obstacles, costFn, logger):
             child = (current_row + action_row, current_col + action_col)
             (child_row, child_col) = child
 
+            # chekcs if its within the grid
             if 0 <= child_row < n_rows and 0 <= child_col < n_cols:
+                # checks if its in the obstacle
                 if child not in obstacles:
                     if child not in open_set and child not in closed_set:
                         if child != goal:
