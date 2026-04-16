@@ -315,6 +315,33 @@ def breadth_first_search(grid_size, start, goal, obstacles, costFn, logger):
     while len(open_set) > 0:
         current = open_set.pop()
         closed_set.add(current)
+
+        for action in ACTIONS:
+            (current_row, current_col) = current
+            (action_row, action_col) = action
+
+            child = (current_row + action_row, current_col + action_col)
+            (child_row, child_col) = child
+
+            if 0 <= child_row < n_rows and 0 <= child_col < n_cols:
+                if child not in obstacles:
+                    if child not in open_set and child not in closed_set:
+                        if child != goal:
+                            open_set.add(child)
+                            parent[child_row][child_col] = current
+                            actions[child_row][child_col] = action
+                        else:
+                            parent[child_row][child_col] = current
+                            actions[child_row][child_col] = action
+                            cell = goal
+                            while cell != start:
+                                (cell_row, cell_col) = cell
+                                movement.append(actions[cell_row][cell_col])
+
+                                cell = parent[cell_row][cell_col]
+
+                            movement.reverse()
+                            return movement, closed_set
 #############################################################################
     return movement, closed_set
 
