@@ -253,10 +253,13 @@ def depth_first_search(grid_size, start, goal, obstacles, costFn, logger):
                             cell = goal
                             while cell != start:
                                 (cell_row, cell_col) = cell
+                                # looks at what action what needed to get to this cell
                                 movement.append(actions[cell_row][cell_col])
 
+                                # move back one step
                                 cell = parent[cell_row][cell_col]
 
+                            # reverses the movement array
                             movement.reverse()
                             return movement, closed_set
             
