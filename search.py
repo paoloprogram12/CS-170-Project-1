@@ -286,7 +286,7 @@ def breadth_first_search(grid_size, start, goal, obstacles, costFn, logger):
     # Choose a proper container yourself from
     # OrderedSet, Stack, Queue, PriorityQueue
     # for the open set and closed set.
-    open_set = OrderedSet()
+    open_set = Queue()
     closed_set = OrderedSet()
     ##########################################
 
@@ -311,7 +311,10 @@ def breadth_first_search(grid_size, start, goal, obstacles, costFn, logger):
     # finish the code below
     # ----------------------------------------
 #############################################################################
-
+    open_set.add(start)
+    while len(open_set) > 0:
+        current = open_set.pop()
+        closed_set.add(current)
 #############################################################################
     return movement, closed_set
 
