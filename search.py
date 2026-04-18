@@ -364,7 +364,7 @@ def uniform_cost_search(grid_size, start, goal, obstacles, costFn, logger):
     # Choose a proper container yourself from
     # OrderedSet, Stack, Queue, PriorityQueue
     # for the open set and closed set.
-    open_set = OrderedSet()
+    open_set = PriorityQueue()
     closed_set = OrderedSet()
     ##########################################
 
@@ -389,6 +389,47 @@ def uniform_cost_search(grid_size, start, goal, obstacles, costFn, logger):
     # finish the code below
     # ----------------------------------------
 #############################################################################
+    open_set.put(start, 0)
+
+    while len(open_set) > 0:
+        current, current_cost = open_set.pop()
+
+        if current == goal:
+            cell = goal
+            while cell != start:
+                (cell_row, cell_col) = cell
+                movement.append(actions[cell_row][cell_col])
+
+                cell = parent[cell_row][cell_col]
+
+            movement.reverse()
+            return movement, closed_set
+        
+        closed_set.add(current)
+
+        for action in ACTIONS:
+            (current_row, current_col) = current
+            (action_row, action_col) = action
+
+            child = (current_row + action_row, current_col + action_col)
+            (child_row, child_col) = child
+
+            if 0 <= child_row < n_rows and 0 <= child_col < n_cols:
+                if child not in obstacles:
+                    child_cost = current_cost + costFn(child)
+                    if child not in open_set and child not in closed_set:
+                        parent[child_row][child_col] = current
+                        actions[child_row][child_col] = action
+
+                        open_set.put(child, child_cost)
+                    # updates the branch
+                    elif child in open_set:
+                        if child_cost < open_set.get(child):
+                            parent[child_row][child_col] = current
+                            actions[child_row][child_col] = action
+                            open_set.put(child, child_cost)
+
+
 
 #############################################################################
     return movement, closed_set
