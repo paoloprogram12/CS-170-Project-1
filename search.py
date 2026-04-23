@@ -487,6 +487,50 @@ def astar_search(grid_size, start, goal, obstacles, costFn, logger):
         return heuristic
     
     open_set.put(start, Value(f = heuristic(start_row, start_col), g = 0))
+
+    while len(open_set) > 0:
+        current, current_value = open_set.pop()
+
+        if current == goal:
+            cell = goal
+            while cell != start:
+                (cell_row, cell_col) = cell
+                movement.append(actions[cell_row][cell_col])
+
+                cell = parent[cell_row][cell_col]
+            movement.reverse()
+            return movement, closed_set
+
+        closed_set.add(current)
+
+        for action in ACTIONS:
+            (current_row, current_col) = current
+            (action_row, action_col) = action
+
+            child = (current_row + action_row, current_col + action_col)
+            (child_row, child_col) = child
+
+            if 0 <= child_row < n_rows and 0 <= child_col < n_cols:
+                if child not in obstacles:
+
+                    child_g = current_value.g + costFn(child)
+                    f = child_g + heuristic(child_row, child_col)
+
+                    if child not in open_set and child not in closed_set:
+                        parent[child_row][child_col] = current
+                        actions[child_row][child_col] = action
+
+                        open_set.put(child, Value(f = f, g = child_g))
+
+                    elif child in open_set:
+                        if child_g < open_set.get(child).g:
+                            parent[child_row][child_col] = current
+                            actions[child_row][child_col] = action
+                            open_set.put(child, Value(f = f, g = child_g))
+
+
+
+
 #############################################################################
     return movement, closed_set
 
