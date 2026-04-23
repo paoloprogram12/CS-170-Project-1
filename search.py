@@ -479,7 +479,12 @@ def astar_search(grid_size, start, goal, obstacles, costFn, logger):
     # ----------------------------------------
     def heuristic(row, col):
 #############################################################################
-        pass
+        h_row = abs(goal_row -row)
+        h_col = abs(goal_col - col)
+
+        heuristic = h_row + h_col
+
+        return heuristic
 #############################################################################
     return movement, closed_set
 
