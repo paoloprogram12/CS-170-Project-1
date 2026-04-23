@@ -452,7 +452,7 @@ def astar_search(grid_size, start, goal, obstacles, costFn, logger):
     # Choose a proper container yourself from
     # OrderedSet, Stack, Queue, PriorityQueue
     # for the open set and closed set.
-    open_set = OrderedSet()
+    open_set = PriorityQueue(order="min", f=lambda v: v.f)
     closed_set = OrderedSet()
     ##########################################
 
@@ -485,6 +485,8 @@ def astar_search(grid_size, start, goal, obstacles, costFn, logger):
         heuristic = h_row + h_col
 
         return heuristic
+    
+    open_set.put(start, Value(f = heuristic(start_row, start_col), g = 0))
 #############################################################################
     return movement, closed_set
 
