@@ -245,11 +245,7 @@ def depth_first_search(grid_size, start, goal, obstacles, costFn, logger):
                 # checks if its in the obstacle
                 if child not in obstacles:
                     if child not in open_set and child not in closed_set:
-                        if child != goal:
-                            open_set.add(child)
-                            parent[child_row][child_col] = current
-                            actions[child_row][child_col] = action
-                        else:
+                        if child == goal:
                             parent[child_row][child_col] = current
                             actions[child_row][child_col] = action
                             cell = goal
@@ -264,6 +260,11 @@ def depth_first_search(grid_size, start, goal, obstacles, costFn, logger):
                             # reverses the movement array
                             movement.reverse()
                             return movement, closed_set
+                        else:
+                            open_set.add(child)
+                            parent[child_row][child_col] = current
+                            actions[child_row][child_col] = action
+
             
 #############################################################################
     return movement, closed_set
@@ -326,11 +327,7 @@ def breadth_first_search(grid_size, start, goal, obstacles, costFn, logger):
             if 0 <= child_row < n_rows and 0 <= child_col < n_cols:
                 if child not in obstacles:
                     if child not in open_set and child not in closed_set:
-                        if child != goal:
-                            open_set.add(child)
-                            parent[child_row][child_col] = current
-                            actions[child_row][child_col] = action
-                        else:
+                        if child == goal:
                             parent[child_row][child_col] = current
                             actions[child_row][child_col] = action
                             cell = goal
@@ -342,6 +339,11 @@ def breadth_first_search(grid_size, start, goal, obstacles, costFn, logger):
 
                             movement.reverse()
                             return movement, closed_set
+
+                        else:
+                            open_set.add(child)
+                            parent[child_row][child_col] = current
+                            actions[child_row][child_col] = action
 #############################################################################
     return movement, closed_set
 
