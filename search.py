@@ -479,9 +479,9 @@ def astar_search(grid_size, start, goal, obstacles, costFn, logger):
     # ----------------------------------------
     # finish the code below to implement a Manhattan distance heuristic
     # ----------------------------------------
-    
+
     # for modified heuristic
-    alpha = 1.5
+    alpha = 2
 
     def heuristic(row, col, alpha):
 #############################################################################
