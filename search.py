@@ -479,16 +479,20 @@ def astar_search(grid_size, start, goal, obstacles, costFn, logger):
     # ----------------------------------------
     # finish the code below to implement a Manhattan distance heuristic
     # ----------------------------------------
-    def heuristic(row, col):
+    
+    # for modified heuristic
+    alpha = 1.5
+
+    def heuristic(row, col, alpha):
 #############################################################################
         h_row = abs(goal_row -row)
         h_col = abs(goal_col - col)
 
         heuristic = h_row + h_col
 
-        return heuristic
+        return alpha * heuristic
     
-    open_set.put(start, Value(f = heuristic(start_row, start_col), g = 0))
+    open_set.put(start, Value(f = heuristic(start_row, start_col, alpha), g = 0))
 
     while len(open_set) > 0:
         current, current_value = open_set.pop()
@@ -516,7 +520,7 @@ def astar_search(grid_size, start, goal, obstacles, costFn, logger):
                 if child not in obstacles:
 
                     child_g = current_value.g + costFn(child)
-                    f = child_g + heuristic(child_row, child_col)
+                    f = child_g + heuristic(child_row, child_col, alpha)
 
                     if child not in open_set and child not in closed_set:
                         parent[child_row][child_col] = current
